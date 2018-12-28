@@ -15,7 +15,6 @@ echo 字符串   #字符串一次性输出,无法被引用(此处会被认为指
 echo -e "字符串 \c" #开启转义,	\c 不换行
 echo "巴拉巴拉信息" > myfile #将信息覆盖并写入到myfile文件中
 echo "哔哩哔哩信息" >> myfile #将信息追加在文件myfile尾部,不会覆盖
-
 ```
 
 
@@ -42,12 +41,60 @@ read -t 30 username #-t 设置过期时间,30秒
 
 
 
-语法:
+##### 语法
 
 `printf forma-string [args]`
 
-参数说明:
+##### 参数说明
 
-format-string:字符串格式控制
+1. format-string:字符串格式控制
 
-args:参数列表
+2. args:参数列表
+
+
+
+##### 演示列表
+
+`%s %c %d %f`替代符
+
+`%-10s`表示该字符串宽度为10个字符(-表示左对齐,没有则表示右对齐),不足空格补,超出全显示
+
+`%-4.2f`中`-4`表示占据4个字符位置,左对齐,`.2`表示浮点数的小数部分位数为2 不足补0,超出隐藏
+
+
+
+```shell
+printf "Hello World \n" #普通输出,类似echo,但需要手动换位符
+printf "%-10s %-8s %-4s \n" "姓名" "性别" "体重kg"  #此处引号内容为字符串格式化标准,对应右边数据
+printf "%-10s %-8s %-4.2f \n" "大脚" "女"  48.236 #体重会被强制改为48.23输出
+
+printf "%10s \n" a b c d e f #超出格式位数的参数会重用printf的格式控制.输出如下
+         a 
+         b 
+         c 
+         d 
+         e 
+         f 
+printf "%10s %d" #如果没有参数,则字符串默认为null,数字默认0
+```
+
+
+
+### Shell输入输出命令
+
+> 注意:
+>
+> 0是标准输入(STDIN)
+>
+> 1是标准输出(STDOUT)
+>
+> 2是标准错误输出(STDERR)
+
+```shell
+command > file #输出重定向到file,如echo "测试" > demo01.sh
+command >> file	#将输出以追加的方式重定向到 file 如echo "测试" >> demo01.sh
+command > /dev/null #将输出内容写入特殊的垃圾空间中丢弃
+command > /dev/null 2>&1 #将输出内容写入特殊的垃圾空间中丢弃并屏蔽stdout和stderr
+```
+
+                                      Shell输入输出重定向指令笔记资料并不完整,以上只是常用操作
